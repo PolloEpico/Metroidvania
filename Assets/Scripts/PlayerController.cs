@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float jumpForce;
     [SerializeField]
     private float groundDistance;
-
+    private int comboCount;
 
 
     //Temporal
@@ -26,45 +26,88 @@ public class PlayerController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
 
-
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        float horizontal = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(speed * horizontal, rb.linearVelocity.y);
-
-        if (horizontal == 0f)
+        //movimiento
+        if (comboCount == 0)
         {
-            animator.SetBool("Run", false);
-        }
-        else
-        {
-            animator.SetBool("Run", true);
+            float horizontal = Input.GetAxis("Horizontal");
+            rb.linearVelocity = new Vector2(speed * horizontal, rb.linearVelocity.y);
+
+            if (horizontal == 0f)
+            {
+                animator.SetBool("Run", false);
+            }
+            else
+            {
+                animator.SetBool("Run", true);
+            }
+
+            if (horizontal < 0f)
+            {
+                transform.eulerAngles = new Vector3(0, 180, 0);
+
+            }
+
+            else if (horizontal > 0f)
+            {
+                transform.eulerAngles = Vector3.zero;
+            }
+
+            //salto
+            if (Input.GetButtonDown("Jump") && JumpCount < maxJumps)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                JumpCount++;
+            }
+
+            CheckJump();
+
         }
 
-        if (horizontal < 0f)
-        { 
-            transform.eulerAngles = new Vector3(0, 180, 0);
+        else 
+        {
+         rb.linearVelocity = Vector2.zero;
+        }
+
+
+        //ataque
+        if (JumpCount == 0)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+
+                comboCount = Mathf.Clamp(comboCount + 1, 0, 2);
+                animator.SetInteger("Combo", comboCount);
+            }
+        }
+    }
+
+    public void CheckCombo1()
+    {
+        if (comboCount < 2)
+        {
+            comboCount = 0;
+            animator.SetInteger("Combo", comboCount);
+        }
+
+    }
+
+    public void CheckCombo2()
+    {
         
-        }
+   
+            comboCount = 0;
+            animator.SetInteger("Combo", comboCount);
+        
+    }
 
-        else if(horizontal > 0f)
-        {
-            transform.eulerAngles = Vector3.zero;
-        }
-
-        if (Input.GetButtonDown("Jump") && JumpCount < maxJumps)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            JumpCount++;
-        }
-
-        Collider2D[] coliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(0.67f, groundDistance), 0f);
+    void CheckJump()
+    {
+        Collider2D[] coliders = Physics2D.OverlapCircleAll(transform.position, groundDistance);
         bool isGrounded = false;
 
         for (int i = 0; i < coliders.Length; i++)
@@ -72,31 +115,36 @@ public class PlayerController : MonoBehaviour
             if (coliders[i].transform.tag == "Ground")
             {
                 isGrounded = true;
-            
+
             }
-        
+
         }
         if (isGrounded == true)
-        { 
+        {
             JumpCount = 0;
             animator.SetBool("jump", false);
-            
-        
+
+
         }
         else
         {
             animator.SetBool("jump", true);
-            
+
 
             if (JumpCount == 0)
-            { 
+            {
                 JumpCount++;
 
             }
         }
 
 
-
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "enemy")
+        {
+            Debug.Log("muelto");
+        }
+    }
 }
