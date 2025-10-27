@@ -13,10 +13,16 @@ public class PlayerController : MonoBehaviour
     private float groundDistance;
     private int comboCount;
 
+    [SerializeField]
+    private GameObject fireBallPrefab;
+    [SerializeField]
+    private Transform spawnPoint;
+
 
     //Temporal
     private int maxJumps = 1;
-
+    public float mana;
+    public float maxmana;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -66,6 +72,11 @@ public class PlayerController : MonoBehaviour
 
             CheckJump();
 
+            if (Input.GetButtonDown("FireBall"))
+            {
+                Instantiate(fireBallPrefab, spawnPoint.position, spawnPoint.rotation);  
+            
+            }
         }
 
         else 
@@ -83,7 +94,13 @@ public class PlayerController : MonoBehaviour
                 comboCount = Mathf.Clamp(comboCount + 1, 0, 2);
                 animator.SetInteger("Combo", comboCount);
             }
+
+            if (Input.GetButtonDown("Fire2") && comboCount == 0)
+            {
+                animator.SetTrigger("bigAttack");
+            }
         }
+
     }
 
     public void CheckCombo1()
@@ -93,7 +110,6 @@ public class PlayerController : MonoBehaviour
             comboCount = 0;
             animator.SetInteger("Combo", comboCount);
         }
-
     }
 
     public void CheckCombo2()
@@ -104,6 +120,14 @@ public class PlayerController : MonoBehaviour
             animator.SetInteger("Combo", comboCount);
         
     }
+
+    public void FinishBigAttack()
+    {
+        comboCount = 0;
+            
+    }
+
+    
 
     void CheckJump()
     {

@@ -7,14 +7,14 @@ public class Attacks : MonoBehaviour
     void Start()
     {
         player = GetComponentInParent<PlayerController>();
-        
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void FinishAttack1()
@@ -25,5 +25,11 @@ public class Attacks : MonoBehaviour
     public void FinishAttack2()
     {
         player.CheckCombo2();
+    }
+
+    public void FinishAttack3()
+    {
+        player.FinishBigAttack();
+
     }
 }
