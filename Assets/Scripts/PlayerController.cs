@@ -17,12 +17,19 @@ public class PlayerController : MonoBehaviour
     private GameObject fireBallPrefab;
     [SerializeField]
     private Transform spawnPoint;
+    [SerializeField]
+    private float coldDown;
+    private float passTime;
+
+    public float mana;
+    public float maxMana;
+    [SerializeField]
+    private float fireBallCost;
 
 
     //Temporal
     private int maxJumps = 1;
-    public float mana;
-    public float maxmana;
+
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -74,8 +81,13 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("FireBall"))
             {
-                Instantiate(fireBallPrefab, spawnPoint.position, spawnPoint.rotation);  
-            
+                if (coldDown <= passTime && mana >= fireBallCost)
+                {
+                    Instantiate(fireBallPrefab, spawnPoint.position, spawnPoint.rotation);
+                    mana -= fireBallCost;
+                    passTime = 0;
+
+                }
             }
         }
 
@@ -101,6 +113,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        passTime += Time.deltaTime;
     }
 
     public void CheckCombo1()
