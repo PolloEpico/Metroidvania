@@ -1,7 +1,15 @@
 using UnityEngine;
 
-public class EscapatrajoController : EnemyController
+public class PeterController : EnemyController
 {
+    [SerializeField]
+    private GameObject lanzaPrefab;
+    [SerializeField]
+    private Transform spawnPoint;
+
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,18 +23,26 @@ public class EscapatrajoController : EnemyController
         if (attacking == true)
         {
             animator.SetBool("Attacking", true);
-
             Vector3 distance = player.position - transform.position;
-            float distanceSq = distance.sqrMagnitude;
-            if (distanceSq > Mathf.Pow(stopDistance, 2))
-            { 
+            float distancesqr = distance.sqrMagnitude;
+            if (distancesqr > Mathf.Pow(stopDistance, 2))
+            {
                 attacking = false;
                 animator.SetBool("Attacking", false);
-            
-            }
 
+
+            }
+        
         }
     
     }
+    public void ThrowLanza()
+    { 
+        Instantiate(lanzaPrefab, spawnPoint.position, spawnPoint.rotation);
+    
+    
+    
+    }
+
 
 }

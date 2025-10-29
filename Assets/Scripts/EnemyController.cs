@@ -10,9 +10,10 @@ public class EnemyController : MonoBehaviour
     private float damage;
     private bool playerDetected;
     private Rigidbody2D rb;
-    private Animator animator;
-    private Transform player;
-
+    public Animator animator;
+    public Transform player;
+    public float stopDistance;
+    public bool attacking;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
@@ -26,20 +27,31 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        if (playerDetected == true)
+        if (playerDetected == true && attacking == false)
         { 
             Vector3 distancia = player.position - transform.position;
            
             if (distancia.x > 0)//drch
             {
                 rb.linearVelocity = speed * Vector2.right;
-
+                transform.eulerAngles = new Vector3(0, 180, 0);
             }
             else //izq
             {
                 rb.linearVelocity = speed * Vector2.left;
-
+                transform.eulerAngles = Vector3.zero;
             }
+
+            Vector3 distance=player.position - transform.position;
+            float distanceSQR = distance.sqrMagnitude;
+
+            if (distanceSQR <= Mathf.Pow(stopDistance,2))
+            { 
+                attacking = true;
+                rb.linearVelocity = Vector2.zero;
+            }
+
+
         }
 
     }
@@ -50,10 +62,18 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             
-            playerDetected = true;
-            player = collision.transform;        
+            Invoke("StartMoving", animator.GetCurrentAnimatorStateInfo(0).length);
+            player = collision.transform;
+            animator.SetTrigger("Alert");
+
         }
 
+    }
+
+    private void StartMoving()
+    {
+        playerDetected = true;
+        animator.SetBool("PlayerDetected", true);
     }
 
 }
