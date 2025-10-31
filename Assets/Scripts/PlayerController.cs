@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public float maxMana;
     [SerializeField]
     private float fireBallCost;
-
+    private LevelManager levelManager;
 
     //Temporal
     private int maxJumps = 1;
@@ -37,7 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 
     }
 
@@ -81,11 +82,13 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("FireBall"))
             {
-                if (coldDown <= passTime && mana >= fireBallCost)
+                if (coldDown <= passTime && GameManager.instance.GetGameData.PlayerMana >= fireBallCost)
                 {
                     Instantiate(fireBallPrefab, spawnPoint.position, spawnPoint.rotation);
-                    mana -= fireBallCost;
+                    GameManager.instance.GetGameData.PlayerMana -= fireBallCost;
+                    levelManager.UpdateMana();
                     passTime = 0;
+
 
                 }
             }
@@ -181,7 +184,38 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "enemy")
         {
-            Debug.Log("muelto");
+            int comboAnimator = animator.GetInteger("Combo");
+            if (comboCount > 0)
+            {
+                collision.gameObject.GetComponent<EnemyController>().TakeDamage(GameManager.instance.GetGameData.PlayerDamage);
+
+            }
+            else
+            {
+                collision.gameObject.GetComponent<EnemyController>().TakeDamage(GameManager.instance.GetGameData.BigAttackDamage);
+            }
+
+
         }
+    }
+    public void TakeDamage(float _damage)
+    {
+        GameManager.instance.GetGameData.PlayerLife -= _damage;
+        levelManager.UpdateLife();
+        if (GameManager.instance.GetGameData.PlayerLife <= 0)
+        {
+            //muelte
+            animator.SetTrigger("Dead");
+            //Panel GameOver
+        }
+        else
+        {
+            //hit
+            animator.SetTrigger("Hit");
+        
+        }
+
+
+   
     }
 }

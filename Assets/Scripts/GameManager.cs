@@ -1,9 +1,12 @@
+using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    [SerializeField]
     private GameData gameData;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public GameData GetGameData
     {
-        set { return gameData; }
+        get { return gameData; }
         set { gameData = value; }
     }
 }

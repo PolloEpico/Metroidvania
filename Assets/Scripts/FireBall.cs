@@ -25,11 +25,17 @@ public class FireBall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("choco");
-        if (collision.transform.tag != "Player" && collision.transform.tag != "fireBall") 
+        Debug.Log(collision.name);
+        if (collision.transform.tag != "Player" && collision.transform.tag != "FireBall") 
         {
             animator.SetTrigger("Pum");
             speed=0;
+            if(collision.transform.tag== "Enemy")
+            {
+                collision.gameObject.GetComponent<EnemyController>().TakeDamage(GameManager.instance.GetGameData.FireBallDamage);
+
+
+            }
         }
     }
 
