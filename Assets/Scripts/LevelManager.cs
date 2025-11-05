@@ -11,14 +11,30 @@ public class LevelManager : MonoBehaviour
     private Transform[] doorPoints;
 
 
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-     
-        GameObject.FindGameObjectWithTag("Player").transform.position = 
-            doorPoints[GameManager.instance.doorToGo].position;
-        GameObject.FindGameObjectWithTag("Player").transform.rotation =
-            doorPoints[GameManager.instance.doorToGo].rotation;
+        if (GameManager.instance.comeFromLoadGame == true)
+        {
+            GameManager.instance.comeFromLoadGame = false;
+            
+            GameObject.FindGameObjectWithTag("Player").transform.position = 
+                GameObject.Find("EsPedras").transform.position;
+            GameObject.FindGameObjectWithTag("Player").transform.rotation = 
+                GameObject.Find("EsPedras").transform.rotation;
+
+
+        }
+        else
+        {
+
+            GameObject.FindGameObjectWithTag("Player").transform.position =
+                doorPoints[GameManager.instance.doorToGo].position;
+            GameObject.FindGameObjectWithTag("Player").transform.rotation =
+                doorPoints[GameManager.instance.doorToGo].rotation;
+        }
     }
 
     // Update is called once per frame

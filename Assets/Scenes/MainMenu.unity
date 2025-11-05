@@ -227,6 +227,7 @@ MonoBehaviour:
     sceneSave: 0
   slot: 0
   doorToGo: 0
+  comeFromLoadGame: 0
 --- !u!4 &181567269
 Transform:
   m_ObjectHideFlags: 0

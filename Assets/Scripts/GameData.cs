@@ -20,6 +20,14 @@ public class GameData
     private float bigAttackDamage;
     [SerializeField]
     private int sceneSave;
+    [SerializeField]
+    private int maxJumps = 1;
+
+
+
+
+
+
 
     public float PlayerLife
     { 
@@ -73,5 +81,10 @@ public class GameData
         set { sceneSave = value; }
     }
 
-
+    public int MaxJumps
+    { 
+        get { return maxJumps; }
+        set { maxJumps = value; }
+    
+    }
 }

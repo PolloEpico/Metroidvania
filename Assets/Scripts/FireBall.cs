@@ -25,7 +25,7 @@ public class FireBall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.name);
+        
         if (collision.transform.tag != "Player" && collision.transform.tag != "FireBall") 
         {
             animator.SetTrigger("Pum");

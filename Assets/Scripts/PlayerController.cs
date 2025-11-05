@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private LevelManager levelManager;
 
     //Temporal
-    private int maxJumps = 1;
+    
 
     
 
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //salto
-            if (Input.GetButtonDown("Jump") && JumpCount < maxJumps)
+            if (Input.GetButtonDown("Jump") && JumpCount < GameManager.instance.GetGameData.MaxJumps)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 JumpCount++;

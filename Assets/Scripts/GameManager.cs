@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private GameData gameData;
     public int slot;
     public int doorToGo;
+    public bool comeFromLoadGame;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -29,7 +30,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //TEST BORRAR ANTES DE RELEASE
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            PlayerPrefs.DeleteAll();
+
+
+        }
+
     }
 
     public GameData GetGameData
@@ -56,3 +64,12 @@ public class GameManager : MonoBehaviour
     
     }
 }
+
+
+/* IDEAS
+ 
+ Power up de bola de fuego para entrar a la zona secreta
+ 
+ 
+ 
+ */

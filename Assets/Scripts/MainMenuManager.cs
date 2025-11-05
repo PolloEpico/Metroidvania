@@ -21,7 +21,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartButton()
     {
-        panelSlots.SetActive(true);    
+        panelSlots.SetActive(true);
+
     }
 
     public void SlotButton(int _slot)
@@ -30,6 +31,7 @@ public class MainMenuManager : MonoBehaviour
         {
             GameManager.instance.slot = _slot;
             GameManager.instance.LoadGame();
+            GameManager.instance.comeFromLoadGame = true;
             SceneManager.LoadScene(GameManager.instance.GetGameData.SceneSave);
         }
         else
@@ -43,6 +45,7 @@ public class MainMenuManager : MonoBehaviour
             GameManager.instance.GetGameData.PlayerDamage = 10;
             GameManager.instance.GetGameData.FireBallDamage = 5;
             GameManager.instance.GetGameData.BigAttackDamage = 15;
+            GameManager.instance.GetGameData.MaxJumps = 1;
 
             SceneManager.LoadScene(1);
         }
