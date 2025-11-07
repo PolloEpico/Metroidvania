@@ -9,6 +9,10 @@ public class Chest : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private string gemaName;
+    [SerializeField]
+    private ParticleSystem particulas;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,7 +78,7 @@ public class Chest : MonoBehaviour
 
     public void ObtenerGema()
     {
-
+        Debug.Log("obtengo gema");
         switch (gemaName)
         {
 
@@ -94,10 +98,15 @@ public class Chest : MonoBehaviour
                 
                 break;
         }
-
+        Debug.Log("break");
         Time.timeScale = 1;
         transform.GetChild(0).gameObject.SetActive(false);
         GetComponent<Collider2D>().enabled = false;
     }
 
+
+    public void ActivateParticles()
+    { 
+        particulas.Play();
+    }
 }

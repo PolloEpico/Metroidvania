@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 2520d42794b4968498d6b903434aba53
+  productGUID: 8314805a888bc5b438e1a212cd695c13
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Metroidvania
+  productName: Metroidvania funciona porfa
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -600,14 +600,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Metroidvania
+  metroPackageName: Metroidvania funciona porfa
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Metroidvania
+  metroApplicationDescription: Metroidvania funciona porfa
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -678,10 +678,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: bf43ebc3-669e-4200-8adf-0621596c23d2
+  cloudProjectId: f93bb5d5-c5dc-4ad6-8cd9-6f7509eec8ea
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Metroidvania 2025-10-20_10-29-31
+  projectName: Metroidvania funciona porfa
   organizationId: itframegames
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

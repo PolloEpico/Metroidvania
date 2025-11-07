@@ -39,12 +39,12 @@ public class EnemyController : MonoBehaviour
            
             if (distancia.x > 0)//drch
             {
-                rb.linearVelocity = speed * Vector2.right;
+                rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
                 transform.eulerAngles = new Vector3(0, 180, 0);
             }
             else //izq
             {
-                rb.linearVelocity = speed * Vector2.left;
+                rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
                 transform.eulerAngles = Vector3.zero;
             }
 
@@ -80,6 +80,8 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+
+            
             collision.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
         
         }

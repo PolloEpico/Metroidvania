@@ -20,6 +20,7 @@ public class Attacks : MonoBehaviour
     public void FinishAttack1()
     {
         player.CheckCombo1();
+
     }
 
     public void FinishAttack2()
@@ -32,4 +33,12 @@ public class Attacks : MonoBehaviour
         player.FinishBigAttack();
 
     }
+
+    public void FinishInv()
+    { 
+        player.hitRecibed = false;
+    
+    }
+
+
 }

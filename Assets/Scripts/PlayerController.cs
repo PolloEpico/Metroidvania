@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private LevelManager levelManager;
 
     //Temporal
-    
+    public bool hitRecibed;
 
     
 
@@ -200,22 +200,27 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeDamage(float _damage)
     {
-        GameManager.instance.GetGameData.PlayerLife -= _damage;
-        levelManager.UpdateLife();
-        if (GameManager.instance.GetGameData.PlayerLife <= 0)
+        if (hitRecibed == false)
         {
-            //muelte
-            animator.SetTrigger("Dead");
-            //Panel GameOver
-        }
-        else
-        {
-            //hit
-            animator.SetTrigger("Hit");
-        
-        }
+            hitRecibed = true;
 
 
+            GameManager.instance.GetGameData.PlayerLife -= _damage;
+            levelManager.UpdateLife();
+            if (GameManager.instance.GetGameData.PlayerLife <= 0)
+            {
+                //muelte
+                animator.SetTrigger("Dead");
+                //Panel GameOver
+            }
+            else
+            {
+                //hit
+                animator.SetTrigger("Hit");
+
+            }
+
+        }
    
     }
 }
