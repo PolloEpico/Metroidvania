@@ -1,10 +1,11 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
 
-    public enum BossStates { Waiting, Jumping, Roar, Roll, Spikes, Tired, Dead }
+    public enum BossStates { Waiting, Jumping, Roar, Roll, Spikes, Dead }
 
     [Header("Variables Generales")]
     [SerializeField]
@@ -22,7 +23,8 @@ public class BossController : MonoBehaviour
 
     [Header("Waiting")]
     [SerializeField]
-    private float WaitingTime;
+    private float waitingTime;
+    private float timeToWait;
 
     [Header("Roar")]
     [SerializeField]
@@ -39,16 +41,26 @@ public class BossController : MonoBehaviour
     private float colliderRoll;
     [SerializeField]
     private float rollSpeed;
-    private bool collisioning;
+    private bool collisioned;
+
+    [Header("Spikes")]
+    [SerializeField]
+    private GameObject spikesPrefab;
+    [SerializeField]
+    private Transform[] spikesSpawnPoints;
+    [SerializeField]
+    private float spikesTime;
+    [SerializeField]
+    private float tiredTime;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         //Temporal Testing
-        currentState = BossStates.Roar;
-        ChangeState();
+        //currentState = BossStates.Jumping;
         animator = GetComponent<Animator>();
+        ChangeState();
     }
 
     // Update is called once per frame
@@ -71,13 +83,10 @@ public class BossController : MonoBehaviour
                 StartCoroutine ( RoarCoroutine());
                 break;
             case BossStates.Roll:
-                StartCoroutine (RollCoroutine());
+                StartCoroutine( RollCoroutine());
                 break;
             case BossStates.Spikes:
-
-                break;
-            case BossStates.Tired:
-
+                StartCoroutine( SpikesCoroutine());
                 break;
             case BossStates.Dead:
 
@@ -91,8 +100,9 @@ public class BossController : MonoBehaviour
     IEnumerator WaitingCoroutine()
     { 
     
-        yield return new WaitForSeconds(WaitingTime);
+        yield return new WaitForSeconds(waitingTime);
         currentState = (BossStates)Random.Range(1, 5);
+        ChangeState();
     }
 
 
@@ -129,11 +139,11 @@ public class BossController : MonoBehaviour
     {
         animator.SetBool("Roar", true);
        
-        collisioning = false;
+        collisioned = false;
 
         yield return new WaitForSeconds(timeSpawnEscapatrajo);
 
-        Instantiate(escapatrajoPrefab, escapatrajoSpawnPoint.positon, escapatrajoSpawnPoint.rotation);
+        Instantiate(escapatrajoPrefab, escapatrajoSpawn.position, escapatrajoSpawn.rotation);
 
         animator.SetBool("Roar", false);
         
@@ -152,10 +162,52 @@ public class BossController : MonoBehaviour
         float standarCollider = collider.size.x;
         collider.size = new Vector2 (colliderRoll, collider.size.y);
 
-        while (collisioning == false)
+        while (collisioned == false)
         {
             transform.Translate(Vector3.left * rollSpeed * Time.deltaTime, Space.Self);
             yield return null;
         }
+
+        animator.SetBool("Roll", false);
+        collider.size = new Vector2(colliderRoll, collider.size.y);
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        ContactPoint2D[] puntosContacto = new ContactPoint2D[0];
+        puntosContacto = collision.contacts;
+        
+        if (collision.GetContact(puntosContacto.Length-1).normal.y > -0.5f && collision.GetContact(puntosContacto.Length - 1).normal.y < 0.5f)
+        {   
+            if (collision.GetContact(puntosContacto.Length - 1).normal.x > 0.5f || collision.GetContact(puntosContacto.Length - 1).normal.x < -0.5f) 
+
+            collisioned = true;
+        
+        
+        
+        }
+
+    }
+
+    IEnumerator SpikesCoroutine()
+    {
+        animator.SetBool("Spikes", true);
+        CapsuleCollider2D collider = GetComponent<CapsuleCollider2D>();
+        float standarCollider = collider.size.x;
+        collider.size = new Vector2(colliderRoll, collider.size.y);
+        yield return new WaitForSeconds(spikesTime);
+        //por si acaso queremos hacer algo en medio
+        yield return new WaitForSeconds(tiredTime);
+        animator.SetBool("Spikes", false);
+        collider.size = new Vector2(colliderRoll, collider.size.y);
+
+    }
+    public void ShootSpikes()
+    {
+        for (int i = 0; i < spikesSpawnPoints.Length; i++)
+        {
+            Instantiate(spikesPrefab, spikesSpawnPoints[i].position, spikesSpawnPoints[i].rotation);
+        }   
+    }
+
 }
